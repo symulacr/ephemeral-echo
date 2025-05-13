@@ -1,0 +1,7 @@
+current_nmt_root = ""
+low_nullifier_index = ""
+low_nullifier_leaf_data_next_index = ""
+low_nullifier_leaf_data_next_value = ""
+low_nullifier_leaf_data_value = ""
+low_nullifier_path = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+newly_deleted_message_nullifier = ""

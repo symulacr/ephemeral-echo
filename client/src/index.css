@@ -1,0 +1,70 @@
+:root {
+  /* Noir Notebook Color Palette */
+  --background: #000000;
+  --background-secondary: #121212;
+  --background-tertiary: #0A0A0A;
+  --text-primary: #FFFFFF;
+  --text-secondary: #AAAAAA;
+  --text-tertiary: #888888;
+  --text-muted: #555555;
+  --border-primary: #333333;
+  --border-secondary: #555555;
+  --accent: hsl(265, 89%, 62%);
+  --accent-hover: hsl(265, 89%, 52%);
+  --accent-light: hsl(265, 89%, 62%, 0.1);
+  --error: #FF4D4D;
+  --success: hsl(265, 89%, 62%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'DM Mono', monospace;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--text-primary);
+  background-color: var(--background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--text-primary);
+  margin: 0 0 32px 0;
+}
+
+button {
+  font-family: 'DM Mono', monospace;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  background-color: var(--accent);
+  color: var(--text-primary);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  /* No border radius for sharp corners */
+}
+
+button:hover {
+  background-color: var(--accent-hover);
+}
+
+button:disabled {
+  background-color: var(--border-primary);
+  color: var(--text-tertiary);
+  cursor: not-allowed;
+}
+
+/* Remove default focus styles */
+button:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}

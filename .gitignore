@@ -1,0 +1,9 @@
+node_modules/
+dist/
+target/
+*.pem
+*.key
+*.jwk
+.env
+.DS_Store
+.vscode/
