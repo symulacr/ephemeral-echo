@@ -6,4 +6,4 @@ target/
 *.jwk
 .env
 .DS_Store
-.vscode/
+.vscode/ 
