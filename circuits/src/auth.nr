@@ -1,14 +1,13 @@
-// In ~/ephemeral-echo/circuits/src/auth.nr
 
 use dep::noir_jwt::JWT;
 use std::collections::bounded_vec::BoundedVec;
 
-// These globals might be referenced from main.nr if not redefined there.
+// globals might be ref'd from main.nr if not redefined there
 pub global MAX_JWT_DATA_LENGTH_AUTH: u32 = 1024;
 pub global MAX_USER_ID_LENGTH_AUTH: u32 = 64;
 pub global RSA_2048_NUM_LIMBS_AUTH: u32 = 18;
 
-// Keep Field arrays in our function signature as requested
+// gotta keep field arrays cuz they asked nicely
 pub fn main_jwt_auth(
     jwt_signed_data: BoundedVec<u8, MAX_JWT_DATA_LENGTH_AUTH>,
     payload_base64_decode_offset: u32,
@@ -17,7 +16,7 @@ pub fn main_jwt_auth(
     signature_limbs: [Field; RSA_2048_NUM_LIMBS_AUTH],
     expected_user_id: BoundedVec<u8, MAX_USER_ID_LENGTH_AUTH>
 ) {
-    // Convert Field arrays to u128 arrays for JWT library
+    // convert field arrays to u128 arrays for jwt lib
     let mut pubkey_modulus_u128: [u128; RSA_2048_NUM_LIMBS_AUTH] = [0; RSA_2048_NUM_LIMBS_AUTH];
     let mut redc_params_u128: [u128; RSA_2048_NUM_LIMBS_AUTH] = [0; RSA_2048_NUM_LIMBS_AUTH];
     let mut signature_u128: [u128; RSA_2048_NUM_LIMBS_AUTH] = [0; RSA_2048_NUM_LIMBS_AUTH];
@@ -36,16 +35,16 @@ pub fn main_jwt_auth(
         signature_u128,
     );
 
-    // This will assert internally if the signature is invalid.
+    // gonna fail if sig is bad
     jwt_verifier.verify();
 
-    // This will assert internally if the claim doesn't match or isn't found.
+    // fails if claim missing or wrong 
     jwt_verifier.assert_claim_string("user_id".as_bytes(), expected_user_id);
 }
 
-// ==================== Tests ====================
+// tests n stuff
 
-// Test 1: Changed name to avoid duplicate
+// test 1 changed name to avoid dupe
 #[test(should_fail_with = "Failed to solve brillig function")]
 fn test_auth_main_jwt_auth_dummy_fail_signature() {
 
@@ -88,7 +87,7 @@ fn test_auth_main_jwt_auth_dummy_fail_signature() {
     );
 }
 
-// Test 2: Changed name and fixed bit shift and arithmetic
+// test 2 fixed bit shift n math
 #[test(should_fail_with = "Failed to solve brillig function")]
 fn test_auth_main_jwt_auth_dummy_fail_brillig() {
     let jwt_data_str = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidGVzdF91c2VyXzEyMyJ9";
@@ -99,14 +98,14 @@ fn test_auth_main_jwt_auth_dummy_fail_brillig() {
 
     let payload_offset = 37;
 
-    // Use more realistic values
+    // more realistic vals idk
     let mut pubkey_mod_dummy: [Field; RSA_2048_NUM_LIMBS_AUTH] = [0; RSA_2048_NUM_LIMBS_AUTH];
     let mut redc_params_dummy: [Field; RSA_2048_NUM_LIMBS_AUTH] = [0; RSA_2048_NUM_LIMBS_AUTH];
     let mut sig_dummy: [Field; RSA_2048_NUM_LIMBS_AUTH] = [0; RSA_2048_NUM_LIMBS_AUTH];
 
     pubkey_mod_dummy[0] = 0xFFFFFFFFFFFFFFFF as Field;
     for i in 1..RSA_2048_NUM_LIMBS_AUTH {
-        // Fix the arithmetic expression by casting the result to Field
+        // fixed math by casting to field
         let shift_amount = (i as u8) * 8;
         let divisor = (1 as u64) << shift_amount;
         pubkey_mod_dummy[i] = (0x0100000000000000 / divisor) as Field;

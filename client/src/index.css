@@ -1,5 +1,5 @@
 :root {
-  /* Noir Notebook Color Palette */
+  /* noir colors cuz dark mode ftw */
   --background: #000000;
   --background-secondary: #121212;
   --background-tertiary: #0A0A0A;
@@ -50,7 +50,7 @@ button {
   border: none;
   cursor: pointer;
   transition: background-color 0.2s ease;
-  /* No border radius for sharp corners */
+  /* sharp corners cuz im edgyyyyyyyyyyyyyyyyy */
 }
 
 button:hover {
@@ -63,7 +63,7 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* Remove default focus styles */
+/* kill default focus stuff */
 button:focus {
   outline: 2px solid var(--accent);
   outline-offset: 2px;

@@ -1,4 +1,3 @@
-// ~/ephemeral-echo/client/src/zkService.js
 
 import { Noir } from '@noir-lang/noir_js';
 import { UltraHonkBackend } from '@aztec/bb.js'; 
@@ -34,7 +33,7 @@ export async function initNoir() {
     }
 }
 
-// Simplified prepareMainInputs - essentially an identity function for now
+// identity func for now whatever
 function prepareMainInputs(inputData) {
     console.log("zkService.js: prepareMainInputs received (raw):", inputData); // Log raw object
     console.log("zkService.js: prepareMainInputs received (stringified):", JSON.stringify(inputData, null, 2));
@@ -42,7 +41,7 @@ function prepareMainInputs(inputData) {
         console.error("zkService.js: prepareMainInputs received an empty or invalid object!");
         return {}; // Return empty to make downstream fail clearly
     }
-    // No transformation, assuming validTestData.js provides perfectly formatted inputs
+    // no transform validtestdata better be right
     console.log("zkService.js: prepareMainInputs returning (as is):", inputData);
     return inputData; 
 }
@@ -87,7 +86,6 @@ export async function generateProof(rawInputs) {
 }
 
 export async function verifyProof(proof) { 
-    // ... (this function should be okay, keep as is) ...
     const { backend } = await initNoir(); 
     if (!backend) throw new Error('Backend not initialized for proof verification.');
     console.log('zkService.js: Verifying proof with backend...');

@@ -8,7 +8,7 @@ client-side noir proofs for cryptographically verifiable message deletion using 
 
 ## [+] overview
 ephemeral echo is made of noir circuits to handle complex crypto ops entirely in-browser, combining:
-- jwt verification (rs256) with [noir-jwt](https://github.com/zkemail/noir-jwt)
+- jwt verification (rsa) with [noir-jwt](https://github.com/zkemail/noir-jwt)
 - merkle tree non-membership proofs with [zk-kit](https://github.com/privacy-scaling-explorations/zk-kit.noir)  
 - client-side proof gen/verification via [@noir-lang/noir_js](https://www.npmjs.com/package/@noir-lang/noir_js)
 - ultrahonk backend using [@aztec/bb.js](https://www.npmjs.com/package/@aztec/bb.js)
@@ -63,13 +63,13 @@ bb backend   ◄─────────────────────�
 ### components
 
 **frontend (react + vite)**
-- modern ui with real-time progress
-- circuit input management  
+- ui with real-time progress
+- circuit input management (mock data)
 - proof visualization
 
 **noir circuits**
 - `main.nr`: orchestrates jwt auth + deletion proof
-- `auth.nr`: jwt rs256 sig verification
+- `auth.nr`: jwt rsa sig verification
 - `merkle_tree.nr`: merkle proof logic
 - deps: zk-kit, noir-jwt libs
 
@@ -97,6 +97,14 @@ bb backend   ◄─────────────────────�
 - expression width: 8
 
 ## [►] technical implementation
+mock data demo
+this technical demo uses hardcoded test values:
+
+jwt user: "user_client_007"
+message nullifier: 0x96 (150)
+existing nullifiers: 0x64 (100), 0xc8 (200)
+proves: 100 < 150 < 200 (non-membership)
+
 
 ### jwt auth in noir
 
@@ -138,6 +146,14 @@ fn assert_field_lt(a: Field, b: Field) {
     diff_minus_one.assert_max_bit_size::<LT_EFFECTIVE_BIT_SIZE>();
 }
 ```
+## [■] problem solved
+traditional message deletion lacks cryptographic proof. ephemeral echo demonstrates:
+
+proving deletion without revealing message content
+combining authentication with action in single proof
+client-side verification without trusted servers
+mathematical guarantees vs "trust us" promises
+
 
 ## [×] features
 
@@ -148,18 +164,12 @@ fn assert_field_lt(a: Field, b: Field) {
 
 ## [!] current limitations & ongoing dev
 
-project under active development with updates based on available time:
-
+- uses mock data (no real message creation/deletion)
 - jwt limb size compatibility (field vs u128) - fix in progress
 - merkle tree state conceptual (not persistent between sessions)
 - single-user demo mode  
 - proof gen time optimization needed
 
-dev continues at professional pace with priorities:
-- optimize proof gen performance
-- implement persistent nullifier storage
-- add multi-user support
-- aztec network deployment prep
 
 ## [□] tech stack
 
@@ -198,4 +208,4 @@ mit license - see [LICENSE](LICENSE) file
 
 ---
 
-*"noir is about control over what you share;  not hiding"*
+*"privacy is not about hiding; it's about control over what you share"*

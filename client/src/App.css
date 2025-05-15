@@ -149,7 +149,6 @@ h1 {
   padding: 16px;
 }
 
-/* Custom scrollbar */
 .terminal-body::-webkit-scrollbar {
   width: 8px;
 }
@@ -193,7 +192,6 @@ h1 {
   color: var(--text-secondary);
 }
 
-/* Log type colors */
 .log-success .log-symbol { color: var(--success); }
 .log-success .log-message { color: var(--text-primary); }
 
@@ -275,7 +273,6 @@ h1 {
   }
 }
 
-/* Mobile responsiveness */
 @media (max-width: 768px) {
   .stage-flow {
     flex-wrap: wrap;

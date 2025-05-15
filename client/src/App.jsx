@@ -1,4 +1,4 @@
-// client/src/App.jsx
+// zkp auth w/ jwt + nullifier proofs
 import React, { useState, useEffect, useRef } from 'react';
 import { initNoir, generateProof, verifyProof } from './zkService';
 import { generateCombinedTestInputs } from './test/validTestData.js';
@@ -12,7 +12,7 @@ function App() {
   const [verificationResult, setVerificationResult] = useState(null);
   const [animationFrame, setAnimationFrame] = useState(0);
   const [activeAnimationIds, setActiveAnimationIds] = useState(new Set());
-  const [loadingProgress, setLoadingProgress] = useState(0);
+  const [loadingProgress, setLoadingProgress] = useState(0);a
   const [isInitializing, setIsInitializing] = useState(false);
   const [currentStage, setCurrentStage] = useState('idle');
   const [stageTimings, setStageTimings] = useState({});
@@ -21,7 +21,7 @@ function App() {
   const logsEndRef = useRef(null);
   const animationIntervalRef = useRef(null);
 
-  // Processing animation symbols
+  // spinny things for ui fanciness
   const processingSymbols = ['[◐]', '[◓]', '[◑]', '[◒]'];
   const loadingSymbols = ['[⁅]', '[⁆]', '[⌈]', '[⌉]', '[⌊]', '[⌋]'];
   
@@ -41,7 +41,7 @@ function App() {
       fractionalSecondDigits: 3 
     });
     
-    // If this is a completion of a processing log, stop its animation
+    // kill anim if done w/ processing
     if (id && type !== 'processing') {
       setActiveAnimationIds(prev => {
         const newSet = new Set(prev);
@@ -50,7 +50,7 @@ function App() {
       });
     }
     
-    // Start new animation for processing logs
+    // kick off new spinny if processing
     if (type === 'processing' && id) {
       setActiveAnimationIds(prev => new Set(prev).add(id));
     }
@@ -67,7 +67,7 @@ function App() {
   };
 
   useEffect(() => {
-    // Animate processing symbols for active animations
+    // make spinny things spin
     if (activeAnimationIds.size > 0) {
       animationIntervalRef.current = setInterval(() => {
         setAnimationFrame(prev => (prev + 1) % processingSymbols.length);
@@ -79,7 +79,7 @@ function App() {
   }, [activeAnimationIds]);
 
   useEffect(() => {
-    // Auto-scroll to latest log
+    // scroll to bottom on new logs
     logsEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [logs]);
 
@@ -90,7 +90,7 @@ function App() {
         setLoadingProgress(0);
         addLog('System initializing...', 'system');
         
-        // Simulate loading progress
+        // fake progress bar cuz looks cool
         const progressInterval = setInterval(() => {
           setLoadingProgress(prev => Math.min(prev + 10, 90));
         }, 200);
@@ -221,7 +221,7 @@ function App() {
       
       addLog(`Total execution time: ${formatTime(totalTime)}`, 'info');
       
-      // Show result animation
+      // show animation effect
       setShowResultAnimation(true);
       setTimeout(() => setShowResultAnimation(false), 1000);
       
@@ -277,7 +277,7 @@ function App() {
       if (stageName === 'verifying') return '[◓]';
     }
     
-    // Stage-specific idle icons
+    // icons 4 idle stages ......
     if (stageName === 'preparing') return '[□]';
     if (stageName === 'validating') return '[◇]';
     if (stageName === 'executing') return '[○]';

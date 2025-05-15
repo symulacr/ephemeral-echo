@@ -1,8 +1,7 @@
-// client/src/test/validTestData.js
 
 import { generateInputs as generateNoirJwtCircuitInputs } from 'noir-jwt';
 
-// These constants must match the globals in your Noir code
+// match noir globals cuz must
 const MAX_JWT_DATA_LENGTH = 1024;
 const MAX_USER_ID_LENGTH = 64;
 const RSA_2048_NUM_LIMBS = 18;
@@ -12,9 +11,9 @@ function processDataToArray(dataInput, maxLength, inputName = "dataInput") {
     let arr = [];
     let actualLength = 0;
     
-    // First check if it's the noir-jwt SDK output format
+    // check if noir-jwt fmt
     if (dataInput && typeof dataInput === 'object' && 'storage' in dataInput) {
-        // Handle SDK format: { storage: [...], len: number }
+        // sdk fmt w storage n len
         if (Array.isArray(dataInput.storage)) {
             arr = dataInput.storage.map(byte => {
                 if (typeof byte === 'number') return "0x" + byte.toString(16).padStart(2, '0');
@@ -49,11 +48,7 @@ function processDataToArray(dataInput, maxLength, inputName = "dataInput") {
     return { storage: arr, len: actualLength };
 }
 
-// THIS IS THE CRITICAL ISSUE: The noir-jwt SDK outputs Field-sized limbs,
-// but your Noir circuit expects u128 limbs. We need to either:
-// 1. Modify the Noir circuit to accept Field-sized limbs
-// 2. Use a different approach for handling RSA in Noir
-// 3. Find a way to properly convert Field to u128 without breaking the math
+// big prob sdk gives field limbs but noir wants u128 ugh
 
 function limbArrayToHexArray(limbArr) {
     if (!limbArr || !Array.isArray(limbArr)) {
@@ -61,9 +56,8 @@ function limbArrayToHexArray(limbArr) {
         return Array(RSA_2048_NUM_LIMBS).fill("0x0");
     }
     
-    // WARNING: This truncation approach will break RSA verification!
-    // The noir-jwt SDK is designed for Field-sized limbs, not u128.
-    // You need to either modify your Noir circuit or use a different approach.
+    // truncation gonna break rsa lol
+    // sdk uses field limbs not u128 smh
     
     return limbArr.map((limb, index) => {
         let hexLimb = "0x0";
@@ -72,7 +66,7 @@ function limbArrayToHexArray(limbArr) {
         if (typeof limb === 'bigint') {
             limbBigInt = limb;
         } else if (typeof limb === 'string') {
-            // The SDK might return decimal strings
+            // might be decimal str
             limbBigInt = BigInt(limb);
         } else if (typeof limb === 'number') {
             limbBigInt = BigInt(limb);
@@ -81,7 +75,7 @@ function limbArrayToHexArray(limbArr) {
             return "0x0";
         }
         
-        // This truncation WILL break RSA verification
+        // truncation kills rsa verification
         const maxU128 = (BigInt(1) << BigInt(128)) - BigInt(1);
         if (limbBigInt > maxU128) {
             console.error(`CRITICAL: limb[${index}] value ${limbBigInt} cannot be safely truncated to u128!`);
@@ -156,7 +150,7 @@ async function getClientJwtInputs() {
         throw new Error("payload_base64_decode_offset from SDK is invalid.");
     }
 
-    // CRITICAL WARNING ABOUT THE LIMB SIZE MISMATCH
+    // ugh field limbs again gonna break stuff
     console.warn("⚠️ CRITICAL ISSUE: The noir-jwt SDK outputs Field-sized limbs, but your Noir circuit expects u128 limbs!");
     console.warn("This mismatch will cause verification to fail. You need to:");
     console.warn("1. Modify your Noir circuit to use Field parameters instead of u128, OR");
@@ -174,7 +168,7 @@ async function getClientJwtInputs() {
     return result;
 }
 
-// Rest of the file remains the same...
+// rest of file stays put...
 const getValidDeletionProofInputs = () => {
     const path = [];
     for (let i = 0; i < TREE_DEPTH_JS; i++) {

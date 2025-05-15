@@ -1,7 +1,7 @@
 // circuits/src/test_simple.nr
 use std::hash::pedersen_hash;
 
-pub global TREE_DEPTH: u32 = 3; // Much smaller for testing
+pub global TREE_DEPTH: u32 = 3; // tiny depth cuz test
 
 pub fn main(
     root: pub Field,
@@ -9,7 +9,7 @@ pub fn main(
     index: Field,
     path: [Field; TREE_DEPTH]
 ) {
-    // Simple Merkle proof verification
+    // verify merkle proof w/ hash chain
     let mut current = leaf;
     let mut idx = index;
     
@@ -23,5 +23,5 @@ pub fn main(
         idx = idx >> 1;
     }
     
-    assert(current == root, "Merkle proof failed");
+    assert(current == root, "proof failed ugh");
 }

@@ -1,26 +1,25 @@
 [package]
 name = "ephemeral_echo_circuits"
 type = "bin"
-authors = ["sym"] # Your name
-# IMPORTANT: Match your nargo --version output for noirc
+authors = ["sym"] 
+# noir ver check
 compiler_version = "1.0.0"
 entry = "src/main.nr"
-expression_width = "8" # or higher values like 12, 18
+expression_width = "8" # bigger = slower
 backend = "barretenberg"
 prove_time = "default"
 
 
 [dependencies]
-# Using a local path dependency for zk-kit.
-# The main branch of zk-kit.noir should be more compatible with a newer Noir like 1.0.0-beta.3
+# local zk-kit path deps
 zk_kit_merkle = { path = "../zk-kit.noir/packages/merkle-trees" }
 
-# Trying noir-jwt v0.4.4 again, as per its README for Noir v1.0.0-beta.3
+# jwt lib for noir 1 beta3
 noir_jwt = { git = "https://github.com/zkemail/noir-jwt.git", tag = "v0.4.4" }
 
-# Standard library is implicitly available and will match your compiler_version.
+# std lib already there
 
-# If using ACIR optimizer
+# acir stuff
 [optimization]
 acir_pass_manager = true
-inline_cost = 20  # Threshold for function inlining
+inline_cost = 20  # inline threshold
