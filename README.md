@@ -50,14 +50,14 @@ for now, sys lev noir's capabilities for fully client-side proof sys:
 ```
 browser env                     noir circuits                    proof sys
 -----------                     -------------                    ---------
-react ui     ────────────►     jwt verifier   ───┐             
-             │                                    ├────►  proof gen
-wasm noir    ◄────────────     merkle tree    ───┘         │
-             │                                              ▼
-bb backend   ◄─────────────────────────────────────────  verify
-             │                                              │
-             └──────────────────────────────────────────────┘
-                                result
+react ui     ──────────────►     jwt verifier   ─────────┐             
+             │                                           ├────►  proof gen
+wasm noir    ◄──────────────     merkle tree    ─────────┘          │
+             │                                                      ▼
+bb backend   ◄──────────────────────────────────────────────────  verify
+             │                                                      │
+             └──────────────────────────────────────────────────────┘
+                                   result
 ```
 
 ### components
